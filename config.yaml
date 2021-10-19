@@ -1,6 +1,6 @@
-baseURL:https://philippine.netlify.app/
+baseURL: https://philippine.netlify.app/
 languageCode: en-us
-title: Forty
+title: Philippine
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,15 +8,15 @@ params:
   banner:
     buttonText: Have a look
     subtitle: |-
-      Here is my portfolio website.
+     Welcome to my website
     title: Hi, my name is Philippine
   blog: {}
   contact:
     address:
-      - title: Address
-        street: London Business school (LBS), Regent's park
-        city: London, NW14SA
-        country: United Kingdom
+      - city: London, NNW14SA
+        country: United Kindom
+        street: Regent's Park
+        title: ADRESS
     buttonClear: Clear
     buttonSend: Send message
     email:
