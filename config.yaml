@@ -8,24 +8,23 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
-      AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: Hi, my name is Forty
+      Here is my portfolio websit.
+    title: Hi, my name is Philippine
   blog: {}
   contact:
     address:
-      - city: City, ST 00000
-        country: Country
-        street: Street
-        title: Address
+      - title: Address
+        street: London Business school (LBS), Regent's park
+        city: London, NW14SA
+        country: United Kingdom
     buttonClear: Clear
     buttonSend: Send message
     email:
-      - email: example@domain.com
+      - email: pbonnaud.mfa2022@london.edu
         title: Email
     enable: yes
     phone:
-      - phone: (000) 000-0000 x1234
+      - phone: no telephone number to disclose
         title: Phone
   custom_css: []
   custom_js: []
@@ -35,30 +34,21 @@ params:
     text: Please visit [this page](/)
   favicon: favicon.ico
   footer:
-    copyright: Company Name
+    copyright: Philippine Bonnaud
     enable: yes
     quicklinks:
       - alt: HTML5 UP
         text: 'Design: '
         url: https://www.html5up.net
     social:
-      - icon: fa-twitter
-        label: Twitter
-        url: https://www.twitter.com
-      - icon: fa-facebook
-        label: Facebook
-        url: https://www.facebook.com
-      - icon: fa-instagram
-        label: Instagram
-        url: https://www.instagram.com
       - icon: fa-github
         label: GitHub
-        url: https://www.github.com
+        url: https://github.com/PhilippineBonnaud
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: https://www.linkedin.com/in/philippine-bonnaud/
   image: ''
-  name: Your name
+  name: Philippine Bonnaud
   navigation:
     button1:
       - name: Get Started
