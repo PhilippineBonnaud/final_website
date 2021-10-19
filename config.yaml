@@ -8,7 +8,7 @@ params:
   banner:
     buttonText: Have a look
     subtitle: |-
-      Here is my portfolio websit.
+      Here is my portfolio website.
     title: Hi, my name is Philippine
   blog: {}
   contact:
@@ -55,44 +55,61 @@ params:
         url: '#'
       - name: About
         url: blogs/About
-      - name: coding projects in R and Python
-        url: blogslayer2
+      - name: Dynamic Coding projects in R
+        url: blogs2
     title: My portfolio
   tiles:
     enable: yes
     showcase:
-      - image: cvpic.jpg
+      - image: cvpic.jp
         subtitle: A little more about me
         title: About
         url: blogs/About
-      - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Tempus
-        url: blogs/tempus
-      - image: pic03.jpg
-        subtitle: Lorem Etiam Nullam
-        title: Magna
-        url: blogs/magna
-      - image: pic04.jpg
-        subtitle: Nisl Sed Aliquam
-        title: Ipsum
-        url: blogs/ipsum
-      - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Consequat
-        url: blogs/ipsum
-      - image: pic06.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Etiam
-        url: blogs/ipsum
+      - image: LBSlogo.jpg
+        subtitle: what I study now
+        title: London Business school MFA
+        url: https://www.london.edu/masters-degrees/masters-in-financial-analysis
+      - image: Spayr.jpg
+        subtitle: Where I work now
+        title: Spayr
+        url: https://www.spayr.eu/
+      - image: UCL.jpg
+        subtitle: My Bachelor Degree
+        title: UCL BSc Management Science
+        url: https://www.ucl.ac.uk/prospective-students/undergraduate/degrees/management-science-bsc
+      - image: FOF34.jpg
+        subtitle: Anchoring Netlé's coffee production in the future of food
+        title: Future of food project
+        url: blogs/FOF34
+      - image: Heart.jpg
+        subtitle: Predicting the key determinants of heart disease
+        title: Heart disease
+        url: blogs/Heart
+      - image: dissertefull.jpg
+        subtitle: Utilising cloud computing technology to improve the data interoperability of french healthcare participants
+        title: Cloud computing and healthcare 
+        url: blogs/dissertefull
+      - image: Doctolib.jpg
+        subtitle: Strategic analysis of the development of Doctolib
+        title: Strategic analysis of Doctolib
+        url: blogs/Doctolib
+      - image: USApres.jpg
+        subtitle: Predicting the outcome of the USA presidential election
+        title: USA presidential election analysis
+        url: blogs/USApres
+      - image: KNN.jpg
+        subtitle: Building a KNN algorithm from scratch for asset management
+        title: KNN algorithms and Finance
+        url: blogs/KNN
+      - image: BS.jpg
+        subtitle: Analysing the drivers of women's financial behaviours
+        title: Behavioural Science
+        url: blogs/BS
+        
   two:
-    buttonText: have a look
+    buttonText: More projects in R
     enable: yes
-    subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
-      \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
-      condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
-      pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
-      Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
-      amet pharetra et feugiat tempus."
-    title: Massa libero
-    url: blogs
+    subtitle: Here is a portfolio of some of my R projects in a dymanic setting
+    title: Dynamic Coding projects in R 
+    url: blogs2
+    
