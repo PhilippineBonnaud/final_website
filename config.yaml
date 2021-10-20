@@ -68,7 +68,7 @@ params:
       - image: cvdownload.jpg
         subtitle: take a look at my CV
         title: CV
-        url: blogs/cvdownload
+        url: blogs/cvdownload.pdf
       - image: LBSlogo.jpg
         subtitle: what I study now
         title: London Business school MFA
@@ -84,11 +84,11 @@ params:
       - image: FOF34.jpg
         subtitle: Anchoring Netlé's coffee production in the future of food
         title: Future of food project
-        url: blogs/FOF34
+        url: blogs/FOF34.pdf
       - image: Heart.jpg
         subtitle: Predicting the key determinants of heart disease
         title: Heart disease
-        url: blogs/Heart
+        url: blogs/Heart.pdf
       - image: dissertefull.jpg
         subtitle: Utilising cloud computing technology to improve the data interoperability of french healthcare participants
         title: Cloud computing and healthcare 
@@ -96,19 +96,19 @@ params:
       - image: Doctolib.jpg
         subtitle: Strategic analysis of the development of Doctolib
         title: Strategic analysis of Doctolib
-        url: blogs/Doctolib
+        url: blogs/Doctolib.pdf
       - image: USApres.jpg
         subtitle: Predicting the outcome of the USA presidential election
         title: USA presidential election analysis
-        url: blogs/USApres
+        url: blogs/USApres.pdf
       - image: KNN.jpg
         subtitle: Building a KNN algorithm from scratch for asset management
         title: KNN algorithms and Finance
-        url: blogs/KNN
+        url: blogs/KNN.pdf
       - image: BS.jpg
         subtitle: Analysing the drivers of women's financial behaviours
         title: Behavioural Science
-        url: blogs/BS
+        url: blogs/BS.pdf
         
   two:
     buttonText: See for yourself
