@@ -1,0 +1,1509 @@
+---
+title: "Trying out some data analysis"
+date: "20/10/2021"
+description: ''
+draft: no
+image: havingfun.jpg
+keywords: ''
+slug: fun
+categories:
+- ''
+- ''
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="where-do-people-drink-the-most-beer-wine-and-spirits" class="section level1">
+<h1>Where Do People Drink The Most Beer, Wine And Spirits?</h1>
+<pre class="r"><code>library(fivethirtyeight)
+data(drinks)
+
+
+# or download directly
+#alcohol_direct &lt;- read_csv(&quot;https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv&quot;)</code></pre>
+<p>What are the variable types? Any missing values we should worry about?</p>
+<ol style="list-style-type: decimal">
+<li>Char, integer, numerical decimal</li>
+<li>No missing values</li>
+</ol>
+<pre class="r"><code>glimpse(drinks) #Getting an overview of the data</code></pre>
+<pre><code>## Rows: 193
+## Columns: 5
+## $ country                      &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Albania&quot;, &quot;Algeria&quot;, &quot;And…
+## $ beer_servings                &lt;int&gt; 0, 89, 25, 245, 217, 102, 193, 21, 261, 2…
+## $ spirit_servings              &lt;int&gt; 0, 132, 0, 138, 57, 128, 25, 179, 72, 75,…
+## $ wine_servings                &lt;int&gt; 0, 54, 14, 312, 45, 45, 221, 11, 212, 191…
+## $ total_litres_of_pure_alcohol &lt;dbl&gt; 0.0, 4.9, 0.7, 12.4, 5.9, 4.9, 8.3, 3.8, …</code></pre>
+<pre class="r"><code>is.na(drinks)  #Checking for na values</code></pre>
+<pre><code>##        country beer_servings spirit_servings wine_servings
+##   [1,]   FALSE         FALSE           FALSE         FALSE
+##   [2,]   FALSE         FALSE           FALSE         FALSE
+##   [3,]   FALSE         FALSE           FALSE         FALSE
+##   [4,]   FALSE         FALSE           FALSE         FALSE
+##   [5,]   FALSE         FALSE           FALSE         FALSE
+##   [6,]   FALSE         FALSE           FALSE         FALSE
+##   [7,]   FALSE         FALSE           FALSE         FALSE
+##   [8,]   FALSE         FALSE           FALSE         FALSE
+##   [9,]   FALSE         FALSE           FALSE         FALSE
+##  [10,]   FALSE         FALSE           FALSE         FALSE
+##  [11,]   FALSE         FALSE           FALSE         FALSE
+##  [12,]   FALSE         FALSE           FALSE         FALSE
+##  [13,]   FALSE         FALSE           FALSE         FALSE
+##  [14,]   FALSE         FALSE           FALSE         FALSE
+##  [15,]   FALSE         FALSE           FALSE         FALSE
+##  [16,]   FALSE         FALSE           FALSE         FALSE
+##  [17,]   FALSE         FALSE           FALSE         FALSE
+##  [18,]   FALSE         FALSE           FALSE         FALSE
+##  [19,]   FALSE         FALSE           FALSE         FALSE
+##  [20,]   FALSE         FALSE           FALSE         FALSE
+##  [21,]   FALSE         FALSE           FALSE         FALSE
+##  [22,]   FALSE         FALSE           FALSE         FALSE
+##  [23,]   FALSE         FALSE           FALSE         FALSE
+##  [24,]   FALSE         FALSE           FALSE         FALSE
+##  [25,]   FALSE         FALSE           FALSE         FALSE
+##  [26,]   FALSE         FALSE           FALSE         FALSE
+##  [27,]   FALSE         FALSE           FALSE         FALSE
+##  [28,]   FALSE         FALSE           FALSE         FALSE
+##  [29,]   FALSE         FALSE           FALSE         FALSE
+##  [30,]   FALSE         FALSE           FALSE         FALSE
+##  [31,]   FALSE         FALSE           FALSE         FALSE
+##  [32,]   FALSE         FALSE           FALSE         FALSE
+##  [33,]   FALSE         FALSE           FALSE         FALSE
+##  [34,]   FALSE         FALSE           FALSE         FALSE
+##  [35,]   FALSE         FALSE           FALSE         FALSE
+##  [36,]   FALSE         FALSE           FALSE         FALSE
+##  [37,]   FALSE         FALSE           FALSE         FALSE
+##  [38,]   FALSE         FALSE           FALSE         FALSE
+##  [39,]   FALSE         FALSE           FALSE         FALSE
+##  [40,]   FALSE         FALSE           FALSE         FALSE
+##  [41,]   FALSE         FALSE           FALSE         FALSE
+##  [42,]   FALSE         FALSE           FALSE         FALSE
+##  [43,]   FALSE         FALSE           FALSE         FALSE
+##  [44,]   FALSE         FALSE           FALSE         FALSE
+##  [45,]   FALSE         FALSE           FALSE         FALSE
+##  [46,]   FALSE         FALSE           FALSE         FALSE
+##  [47,]   FALSE         FALSE           FALSE         FALSE
+##  [48,]   FALSE         FALSE           FALSE         FALSE
+##  [49,]   FALSE         FALSE           FALSE         FALSE
+##  [50,]   FALSE         FALSE           FALSE         FALSE
+##  [51,]   FALSE         FALSE           FALSE         FALSE
+##  [52,]   FALSE         FALSE           FALSE         FALSE
+##  [53,]   FALSE         FALSE           FALSE         FALSE
+##  [54,]   FALSE         FALSE           FALSE         FALSE
+##  [55,]   FALSE         FALSE           FALSE         FALSE
+##  [56,]   FALSE         FALSE           FALSE         FALSE
+##  [57,]   FALSE         FALSE           FALSE         FALSE
+##  [58,]   FALSE         FALSE           FALSE         FALSE
+##  [59,]   FALSE         FALSE           FALSE         FALSE
+##  [60,]   FALSE         FALSE           FALSE         FALSE
+##  [61,]   FALSE         FALSE           FALSE         FALSE
+##  [62,]   FALSE         FALSE           FALSE         FALSE
+##  [63,]   FALSE         FALSE           FALSE         FALSE
+##  [64,]   FALSE         FALSE           FALSE         FALSE
+##  [65,]   FALSE         FALSE           FALSE         FALSE
+##  [66,]   FALSE         FALSE           FALSE         FALSE
+##  [67,]   FALSE         FALSE           FALSE         FALSE
+##  [68,]   FALSE         FALSE           FALSE         FALSE
+##  [69,]   FALSE         FALSE           FALSE         FALSE
+##  [70,]   FALSE         FALSE           FALSE         FALSE
+##  [71,]   FALSE         FALSE           FALSE         FALSE
+##  [72,]   FALSE         FALSE           FALSE         FALSE
+##  [73,]   FALSE         FALSE           FALSE         FALSE
+##  [74,]   FALSE         FALSE           FALSE         FALSE
+##  [75,]   FALSE         FALSE           FALSE         FALSE
+##  [76,]   FALSE         FALSE           FALSE         FALSE
+##  [77,]   FALSE         FALSE           FALSE         FALSE
+##  [78,]   FALSE         FALSE           FALSE         FALSE
+##  [79,]   FALSE         FALSE           FALSE         FALSE
+##  [80,]   FALSE         FALSE           FALSE         FALSE
+##  [81,]   FALSE         FALSE           FALSE         FALSE
+##  [82,]   FALSE         FALSE           FALSE         FALSE
+##  [83,]   FALSE         FALSE           FALSE         FALSE
+##  [84,]   FALSE         FALSE           FALSE         FALSE
+##  [85,]   FALSE         FALSE           FALSE         FALSE
+##  [86,]   FALSE         FALSE           FALSE         FALSE
+##  [87,]   FALSE         FALSE           FALSE         FALSE
+##  [88,]   FALSE         FALSE           FALSE         FALSE
+##  [89,]   FALSE         FALSE           FALSE         FALSE
+##  [90,]   FALSE         FALSE           FALSE         FALSE
+##  [91,]   FALSE         FALSE           FALSE         FALSE
+##  [92,]   FALSE         FALSE           FALSE         FALSE
+##  [93,]   FALSE         FALSE           FALSE         FALSE
+##  [94,]   FALSE         FALSE           FALSE         FALSE
+##  [95,]   FALSE         FALSE           FALSE         FALSE
+##  [96,]   FALSE         FALSE           FALSE         FALSE
+##  [97,]   FALSE         FALSE           FALSE         FALSE
+##  [98,]   FALSE         FALSE           FALSE         FALSE
+##  [99,]   FALSE         FALSE           FALSE         FALSE
+## [100,]   FALSE         FALSE           FALSE         FALSE
+## [101,]   FALSE         FALSE           FALSE         FALSE
+## [102,]   FALSE         FALSE           FALSE         FALSE
+## [103,]   FALSE         FALSE           FALSE         FALSE
+## [104,]   FALSE         FALSE           FALSE         FALSE
+## [105,]   FALSE         FALSE           FALSE         FALSE
+## [106,]   FALSE         FALSE           FALSE         FALSE
+## [107,]   FALSE         FALSE           FALSE         FALSE
+## [108,]   FALSE         FALSE           FALSE         FALSE
+## [109,]   FALSE         FALSE           FALSE         FALSE
+## [110,]   FALSE         FALSE           FALSE         FALSE
+## [111,]   FALSE         FALSE           FALSE         FALSE
+## [112,]   FALSE         FALSE           FALSE         FALSE
+## [113,]   FALSE         FALSE           FALSE         FALSE
+## [114,]   FALSE         FALSE           FALSE         FALSE
+## [115,]   FALSE         FALSE           FALSE         FALSE
+## [116,]   FALSE         FALSE           FALSE         FALSE
+## [117,]   FALSE         FALSE           FALSE         FALSE
+## [118,]   FALSE         FALSE           FALSE         FALSE
+## [119,]   FALSE         FALSE           FALSE         FALSE
+## [120,]   FALSE         FALSE           FALSE         FALSE
+## [121,]   FALSE         FALSE           FALSE         FALSE
+## [122,]   FALSE         FALSE           FALSE         FALSE
+## [123,]   FALSE         FALSE           FALSE         FALSE
+## [124,]   FALSE         FALSE           FALSE         FALSE
+## [125,]   FALSE         FALSE           FALSE         FALSE
+## [126,]   FALSE         FALSE           FALSE         FALSE
+## [127,]   FALSE         FALSE           FALSE         FALSE
+## [128,]   FALSE         FALSE           FALSE         FALSE
+## [129,]   FALSE         FALSE           FALSE         FALSE
+## [130,]   FALSE         FALSE           FALSE         FALSE
+## [131,]   FALSE         FALSE           FALSE         FALSE
+## [132,]   FALSE         FALSE           FALSE         FALSE
+## [133,]   FALSE         FALSE           FALSE         FALSE
+## [134,]   FALSE         FALSE           FALSE         FALSE
+## [135,]   FALSE         FALSE           FALSE         FALSE
+## [136,]   FALSE         FALSE           FALSE         FALSE
+## [137,]   FALSE         FALSE           FALSE         FALSE
+## [138,]   FALSE         FALSE           FALSE         FALSE
+## [139,]   FALSE         FALSE           FALSE         FALSE
+## [140,]   FALSE         FALSE           FALSE         FALSE
+## [141,]   FALSE         FALSE           FALSE         FALSE
+## [142,]   FALSE         FALSE           FALSE         FALSE
+## [143,]   FALSE         FALSE           FALSE         FALSE
+## [144,]   FALSE         FALSE           FALSE         FALSE
+## [145,]   FALSE         FALSE           FALSE         FALSE
+## [146,]   FALSE         FALSE           FALSE         FALSE
+## [147,]   FALSE         FALSE           FALSE         FALSE
+## [148,]   FALSE         FALSE           FALSE         FALSE
+## [149,]   FALSE         FALSE           FALSE         FALSE
+## [150,]   FALSE         FALSE           FALSE         FALSE
+## [151,]   FALSE         FALSE           FALSE         FALSE
+## [152,]   FALSE         FALSE           FALSE         FALSE
+## [153,]   FALSE         FALSE           FALSE         FALSE
+## [154,]   FALSE         FALSE           FALSE         FALSE
+## [155,]   FALSE         FALSE           FALSE         FALSE
+## [156,]   FALSE         FALSE           FALSE         FALSE
+## [157,]   FALSE         FALSE           FALSE         FALSE
+## [158,]   FALSE         FALSE           FALSE         FALSE
+## [159,]   FALSE         FALSE           FALSE         FALSE
+## [160,]   FALSE         FALSE           FALSE         FALSE
+## [161,]   FALSE         FALSE           FALSE         FALSE
+## [162,]   FALSE         FALSE           FALSE         FALSE
+## [163,]   FALSE         FALSE           FALSE         FALSE
+## [164,]   FALSE         FALSE           FALSE         FALSE
+## [165,]   FALSE         FALSE           FALSE         FALSE
+## [166,]   FALSE         FALSE           FALSE         FALSE
+## [167,]   FALSE         FALSE           FALSE         FALSE
+## [168,]   FALSE         FALSE           FALSE         FALSE
+## [169,]   FALSE         FALSE           FALSE         FALSE
+## [170,]   FALSE         FALSE           FALSE         FALSE
+## [171,]   FALSE         FALSE           FALSE         FALSE
+## [172,]   FALSE         FALSE           FALSE         FALSE
+## [173,]   FALSE         FALSE           FALSE         FALSE
+## [174,]   FALSE         FALSE           FALSE         FALSE
+## [175,]   FALSE         FALSE           FALSE         FALSE
+## [176,]   FALSE         FALSE           FALSE         FALSE
+## [177,]   FALSE         FALSE           FALSE         FALSE
+## [178,]   FALSE         FALSE           FALSE         FALSE
+## [179,]   FALSE         FALSE           FALSE         FALSE
+## [180,]   FALSE         FALSE           FALSE         FALSE
+## [181,]   FALSE         FALSE           FALSE         FALSE
+## [182,]   FALSE         FALSE           FALSE         FALSE
+## [183,]   FALSE         FALSE           FALSE         FALSE
+## [184,]   FALSE         FALSE           FALSE         FALSE
+## [185,]   FALSE         FALSE           FALSE         FALSE
+## [186,]   FALSE         FALSE           FALSE         FALSE
+## [187,]   FALSE         FALSE           FALSE         FALSE
+## [188,]   FALSE         FALSE           FALSE         FALSE
+## [189,]   FALSE         FALSE           FALSE         FALSE
+## [190,]   FALSE         FALSE           FALSE         FALSE
+## [191,]   FALSE         FALSE           FALSE         FALSE
+## [192,]   FALSE         FALSE           FALSE         FALSE
+## [193,]   FALSE         FALSE           FALSE         FALSE
+##        total_litres_of_pure_alcohol
+##   [1,]                        FALSE
+##   [2,]                        FALSE
+##   [3,]                        FALSE
+##   [4,]                        FALSE
+##   [5,]                        FALSE
+##   [6,]                        FALSE
+##   [7,]                        FALSE
+##   [8,]                        FALSE
+##   [9,]                        FALSE
+##  [10,]                        FALSE
+##  [11,]                        FALSE
+##  [12,]                        FALSE
+##  [13,]                        FALSE
+##  [14,]                        FALSE
+##  [15,]                        FALSE
+##  [16,]                        FALSE
+##  [17,]                        FALSE
+##  [18,]                        FALSE
+##  [19,]                        FALSE
+##  [20,]                        FALSE
+##  [21,]                        FALSE
+##  [22,]                        FALSE
+##  [23,]                        FALSE
+##  [24,]                        FALSE
+##  [25,]                        FALSE
+##  [26,]                        FALSE
+##  [27,]                        FALSE
+##  [28,]                        FALSE
+##  [29,]                        FALSE
+##  [30,]                        FALSE
+##  [31,]                        FALSE
+##  [32,]                        FALSE
+##  [33,]                        FALSE
+##  [34,]                        FALSE
+##  [35,]                        FALSE
+##  [36,]                        FALSE
+##  [37,]                        FALSE
+##  [38,]                        FALSE
+##  [39,]                        FALSE
+##  [40,]                        FALSE
+##  [41,]                        FALSE
+##  [42,]                        FALSE
+##  [43,]                        FALSE
+##  [44,]                        FALSE
+##  [45,]                        FALSE
+##  [46,]                        FALSE
+##  [47,]                        FALSE
+##  [48,]                        FALSE
+##  [49,]                        FALSE
+##  [50,]                        FALSE
+##  [51,]                        FALSE
+##  [52,]                        FALSE
+##  [53,]                        FALSE
+##  [54,]                        FALSE
+##  [55,]                        FALSE
+##  [56,]                        FALSE
+##  [57,]                        FALSE
+##  [58,]                        FALSE
+##  [59,]                        FALSE
+##  [60,]                        FALSE
+##  [61,]                        FALSE
+##  [62,]                        FALSE
+##  [63,]                        FALSE
+##  [64,]                        FALSE
+##  [65,]                        FALSE
+##  [66,]                        FALSE
+##  [67,]                        FALSE
+##  [68,]                        FALSE
+##  [69,]                        FALSE
+##  [70,]                        FALSE
+##  [71,]                        FALSE
+##  [72,]                        FALSE
+##  [73,]                        FALSE
+##  [74,]                        FALSE
+##  [75,]                        FALSE
+##  [76,]                        FALSE
+##  [77,]                        FALSE
+##  [78,]                        FALSE
+##  [79,]                        FALSE
+##  [80,]                        FALSE
+##  [81,]                        FALSE
+##  [82,]                        FALSE
+##  [83,]                        FALSE
+##  [84,]                        FALSE
+##  [85,]                        FALSE
+##  [86,]                        FALSE
+##  [87,]                        FALSE
+##  [88,]                        FALSE
+##  [89,]                        FALSE
+##  [90,]                        FALSE
+##  [91,]                        FALSE
+##  [92,]                        FALSE
+##  [93,]                        FALSE
+##  [94,]                        FALSE
+##  [95,]                        FALSE
+##  [96,]                        FALSE
+##  [97,]                        FALSE
+##  [98,]                        FALSE
+##  [99,]                        FALSE
+## [100,]                        FALSE
+## [101,]                        FALSE
+## [102,]                        FALSE
+## [103,]                        FALSE
+## [104,]                        FALSE
+## [105,]                        FALSE
+## [106,]                        FALSE
+## [107,]                        FALSE
+## [108,]                        FALSE
+## [109,]                        FALSE
+## [110,]                        FALSE
+## [111,]                        FALSE
+## [112,]                        FALSE
+## [113,]                        FALSE
+## [114,]                        FALSE
+## [115,]                        FALSE
+## [116,]                        FALSE
+## [117,]                        FALSE
+## [118,]                        FALSE
+## [119,]                        FALSE
+## [120,]                        FALSE
+## [121,]                        FALSE
+## [122,]                        FALSE
+## [123,]                        FALSE
+## [124,]                        FALSE
+## [125,]                        FALSE
+## [126,]                        FALSE
+## [127,]                        FALSE
+## [128,]                        FALSE
+## [129,]                        FALSE
+## [130,]                        FALSE
+## [131,]                        FALSE
+## [132,]                        FALSE
+## [133,]                        FALSE
+## [134,]                        FALSE
+## [135,]                        FALSE
+## [136,]                        FALSE
+## [137,]                        FALSE
+## [138,]                        FALSE
+## [139,]                        FALSE
+## [140,]                        FALSE
+## [141,]                        FALSE
+## [142,]                        FALSE
+## [143,]                        FALSE
+## [144,]                        FALSE
+## [145,]                        FALSE
+## [146,]                        FALSE
+## [147,]                        FALSE
+## [148,]                        FALSE
+## [149,]                        FALSE
+## [150,]                        FALSE
+## [151,]                        FALSE
+## [152,]                        FALSE
+## [153,]                        FALSE
+## [154,]                        FALSE
+## [155,]                        FALSE
+## [156,]                        FALSE
+## [157,]                        FALSE
+## [158,]                        FALSE
+## [159,]                        FALSE
+## [160,]                        FALSE
+## [161,]                        FALSE
+## [162,]                        FALSE
+## [163,]                        FALSE
+## [164,]                        FALSE
+## [165,]                        FALSE
+## [166,]                        FALSE
+## [167,]                        FALSE
+## [168,]                        FALSE
+## [169,]                        FALSE
+## [170,]                        FALSE
+## [171,]                        FALSE
+## [172,]                        FALSE
+## [173,]                        FALSE
+## [174,]                        FALSE
+## [175,]                        FALSE
+## [176,]                        FALSE
+## [177,]                        FALSE
+## [178,]                        FALSE
+## [179,]                        FALSE
+## [180,]                        FALSE
+## [181,]                        FALSE
+## [182,]                        FALSE
+## [183,]                        FALSE
+## [184,]                        FALSE
+## [185,]                        FALSE
+## [186,]                        FALSE
+## [187,]                        FALSE
+## [188,]                        FALSE
+## [189,]                        FALSE
+## [190,]                        FALSE
+## [191,]                        FALSE
+## [192,]                        FALSE
+## [193,]                        FALSE</code></pre>
+<pre class="r"><code>which(is.na(drinks)) #Checking for na values </code></pre>
+<pre><code>## integer(0)</code></pre>
+<p>Make a plot that shows the top 25 beer consuming countries</p>
+<pre class="r"><code>#Filtering the top 25 beer consuming countries 
+top_25 &lt;- drinks %&gt;%
+  arrange(desc(beer_servings)) %&gt;%
+  head(25)
+#Creating a plot for the top 25 beer consuming countries 
+ggplot(top_25, aes(y= fct_reorder(country,beer_servings), x=beer_servings, fill=country))+
+  geom_col()+
+  labs(title =&quot;Top 25 countries by beer consumption&quot;, y =&quot;Country&quot;, x =&quot;Beer consumption&quot;)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/beer_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>  NULL</code></pre>
+<pre><code>## NULL</code></pre>
+<p>Make a plot that shows the top 25 wine consuming countries</p>
+<pre class="r"><code>#Filtering the top 25 wine consuming countries
+top_25 &lt;- drinks %&gt;%
+  arrange(desc(wine_servings)) %&gt;%
+  head(25)
+#Creating a plot for the top 25 wine consuming countries 
+ggplot(top_25, aes(y= fct_reorder(country,wine_servings), x=wine_servings, fill=country))+
+  geom_col()+
+  labs(title=&quot;Top 25 countries by wine consumption&quot;, y=&quot;Country&quot;,x=&quot;Wine consumption&quot;)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/wine_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>  NULL</code></pre>
+<pre><code>## NULL</code></pre>
+<p>Finally, make a plot that shows the top 25 spirit consuming countries</p>
+<pre class="r"><code>#Filtering the top 25 spirit consuming countries 
+top_25 &lt;- drinks %&gt;%
+  arrange(desc(spirit_servings)) %&gt;%
+  head(25)
+#Creating a plot for the top 25 spirit consuming countries 
+ggplot(top_25, aes(y= fct_reorder(country,spirit_servings), x=spirit_servings, fill=country))+
+  geom_col()+
+  labs(title=&quot;Top 25 countries by spirit consumption&quot;, y=&quot;Country&quot;,x=&quot;Spirit consumption&quot;)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/spirit_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>  NULL</code></pre>
+<pre><code>## NULL</code></pre>
+<p>These plots highlight that the largest consumers of beer, wine and spirit are usually also the largest producers. One of the world’s largest producers of beer is Germany and it features at the 4th spot among the top 25 beer consuming countries. Furthermore France produces the greatest amount of wine and it is also the largest cosumer of wine.</p>
+<p>There are certain geographical patterns that can be observed from these graphs as well. The top beer consuming countries are spread across Africa,Europe and South America, but the top wine consuming countries are mostly European. Top spirit consuming countries are developing countries, and no major developed country feautres on the list. This shows that developed countries have a stronger propensity to consume fine liquors such as Wine whereas developing and low to middle income countries usually demostrate a preference for spirit.</p>
+</div>
+<div id="analysis-of-movies--imdb-dataset" class="section level1">
+<h1>Analysis of movies- IMDB dataset</h1>
+<p>We will look at a subset sample of movies, taken from the <a href="https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset">Kaggle IMDB 5000 movie dataset</a></p>
+<pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;, &quot;movies.csv&quot;)) #Load the dataset 
+glimpse(movies) #Get a summary of the data </code></pre>
+<pre><code>## Rows: 2,961
+## Columns: 11
+## $ title               &lt;chr&gt; &quot;Avatar&quot;, &quot;Titanic&quot;, &quot;Jurassic World&quot;, &quot;The Avenge…
+## $ genre               &lt;chr&gt; &quot;Action&quot;, &quot;Drama&quot;, &quot;Action&quot;, &quot;Action&quot;, &quot;Action&quot;, &quot;…
+## $ director            &lt;chr&gt; &quot;James Cameron&quot;, &quot;James Cameron&quot;, &quot;Colin Trevorrow…
+## $ year                &lt;dbl&gt; 2009, 1997, 2015, 2012, 2008, 1999, 1977, 2015, 20…
+## $ duration            &lt;dbl&gt; 178, 194, 124, 173, 152, 136, 125, 141, 164, 93, 1…
+## $ gross               &lt;dbl&gt; 7.61e+08, 6.59e+08, 6.52e+08, 6.23e+08, 5.33e+08, …
+## $ budget              &lt;dbl&gt; 2.37e+08, 2.00e+08, 1.50e+08, 2.20e+08, 1.85e+08, …
+## $ cast_facebook_likes &lt;dbl&gt; 4834, 45223, 8458, 87697, 57802, 37723, 13485, 920…
+## $ votes               &lt;dbl&gt; 886204, 793059, 418214, 995415, 1676169, 534658, 9…
+## $ reviews             &lt;dbl&gt; 3777, 2843, 1934, 2425, 5312, 3917, 1752, 1752, 35…
+## $ rating              &lt;dbl&gt; 7.9, 7.7, 7.0, 8.1, 9.0, 6.5, 8.7, 7.5, 8.5, 7.2, …</code></pre>
+<pre class="r"><code>which(is.na(movies)) #checking for na values</code></pre>
+<pre><code>## integer(0)</code></pre>
+<pre class="r"><code>length(unique(movies$title)) #checking if there are non-unique rows </code></pre>
+<pre><code>## [1] 2907</code></pre>
+<pre class="r"><code>movies[duplicated(movies$title),] #using the duplicate() fucntion to return a list of duplicate movie titles </code></pre>
+<pre><code>## # A tibble: 54 × 11
+##    title   genre  director   year duration  gross budget cast_facebook_l…  votes
+##    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;            &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Spider… Action Sam Raimi  2007      156 3.37e8 2.58e8            46055 383071
+##  2 Alice … Adven… Tim Burt…  2010      108 3.34e8 2   e8            79957 306336
+##  3 Oz the… Adven… Sam Raimi  2013      130 2.35e8 2.15e8            73441 175413
+##  4 Cinder… Drama  Kenneth …  2015      105 2.01e8 9.5 e7             4671 103749
+##  5 Twilig… Drama  Catherin…  2008      122 1.91e8 3.7 e7            44060 348007
+##  6 Teenag… Action Jonathan…  2014      101 1.91e8 1.25e8             2690 167089
+##  7 Planet… Action Tim Burt…  2001      119 1.80e8 1   e8             2776 177729
+##  8 Home    Adven… Tim John…  2015       94 1.77e8 1.35e8            17883  70133
+##  9 Home    Adven… Tim John…  2015       94 1.77e8 1.35e8            17883  70136
+## 10 TRON: … Action Joseph K…  2010      125 1.72e8 1.7 e8            25549 264186
+## # … with 44 more rows, and 2 more variables: reviews &lt;dbl&gt;, rating &lt;dbl&gt;</code></pre>
+<ul>
+<li>Produce a table with the count of movies by genre, ranked in descending order</li>
+</ul>
+<pre class="r"><code>genre &lt;- movies %&gt;% #assigning table name 
+  group_by(genre) %&gt;% #grouping movie data by genre 
+  count(genre) %&gt;% #counting the genre 
+  arrange(desc(n)) #arranging the count of genre in descending order 
+
+genre #return table as output </code></pre>
+<pre><code>## # A tibble: 17 × 2
+## # Groups:   genre [17]
+##    genre           n
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 Comedy        848
+##  2 Action        738
+##  3 Drama         498
+##  4 Adventure     288
+##  5 Crime         202
+##  6 Biography     135
+##  7 Horror        131
+##  8 Animation      35
+##  9 Fantasy        28
+## 10 Documentary    25
+## 11 Mystery        16
+## 12 Sci-Fi          7
+## 13 Family          3
+## 14 Musical         2
+## 15 Romance         2
+## 16 Western         2
+## 17 Thriller        1</code></pre>
+<p>table with the average gross earning and budget (<code>gross</code> and <code>budget</code>) by genre.</p>
+<pre class="r"><code>movies %&gt;% #selecting the movies data
+  group_by(genre) %&gt;% #grouping the data by genre 
+  summarize(average_gross = mean(gross), average_budget = mean(budget)) #calculating average of gross revenue and budget by genre </code></pre>
+<pre><code>## # A tibble: 17 × 3
+##    genre       average_gross average_budget
+##    &lt;chr&gt;               &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Action          86583860.      71354888.
+##  2 Adventure       95794257.      66290069.
+##  3 Animation       98433792.      61701429.
+##  4 Biography       45201805.      28543696.
+##  5 Comedy          42630552.      24446319.
+##  6 Crime           37502397.      26596169.
+##  7 Documentary     17353973.       5887852.
+##  8 Drama           37465371.      26242933.
+##  9 Family         149160478.      14833333.
+## 10 Fantasy         42408841.      17582143.
+## 11 Horror          37713738.      13504916.
+## 12 Musical         92084000        3189500 
+## 13 Mystery         67533021.      39218750 
+## 14 Romance         31264848.      25107500 
+## 15 Sci-Fi          29788371.      27607143.
+## 16 Thriller            2468         300000 
+## 17 Western         20821884        3465000</code></pre>
+<pre class="r"><code>movies %&gt;% #selecting the movies data
+  group_by(genre) %&gt;% #grouping the data by genre 
+  summarize(return_on_budget = mean(gross)/mean(budget)) %&gt;%
+  arrange(desc(return_on_budget))</code></pre>
+<pre><code>## # A tibble: 17 × 2
+##    genre       return_on_budget
+##    &lt;chr&gt;                  &lt;dbl&gt;
+##  1 Musical             28.9    
+##  2 Family              10.1    
+##  3 Western              6.01   
+##  4 Documentary          2.95   
+##  5 Horror               2.79   
+##  6 Fantasy              2.41   
+##  7 Comedy               1.74   
+##  8 Mystery              1.72   
+##  9 Animation            1.60   
+## 10 Biography            1.58   
+## 11 Adventure            1.45   
+## 12 Drama                1.43   
+## 13 Crime                1.41   
+## 14 Romance              1.25   
+## 15 Action               1.21   
+## 16 Sci-Fi               1.08   
+## 17 Thriller             0.00823</code></pre>
+<p>table that shows the top 15 directors who have created the highest gross revenue in the box office.</p>
+<pre class="r"><code>movies %&gt;% #selecting the movies data
+  group_by(director) %&gt;% #groupping the data by director 
+  summarize(average_gross = mean(gross), median_gross=median(gross),sd_gros=StdDev(gross))%&gt;% #calculating mean, median and standard deviation of the the gross revenue by director 
+  arrange(desc(average_gross))%&gt;% #arranfing the data in descending order 
+  head(15) #retunrning the top 15 values </code></pre>
+<pre><code>## # A tibble: 15 × 4
+##    director         average_gross median_gross sd_gros[,1]
+##    &lt;chr&gt;                    &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Lee Unkrich         414984497    414984497          NA 
+##  2 Chris Buck          400736600    400736600          NA 
+##  3 Joss Whedon         369202360.   458991599   308918632.
+##  4 Tim Miller          363024263    363024263          NA 
+##  5 George Lucas        348283696    380262555   146193880.
+##  6 Kyle Balda          336029560    336029560          NA 
+##  7 Colin Trevorrow     328092532.   328092532.  458325034.
+##  8 James Cameron       318287652.   175562880.  309171337.
+##  9 Pete Docter         313113780.   292979556    37565467.
+## 10 Pierre Coffin       309775640    309775640    82411874.
+## 11 Richard Marquand    309125409    309125409          NA 
+## 12 Irvin Kershner      290158751    290158751          NA 
+## 13 Andrew Adamson      284361730    279680930.  120895765.
+## 14 Francis Lawrence    271700394.   281666058   135437020.
+## 15 Dan Scanlon         268488329    268488329          NA</code></pre>
+<p>table that describes how ratings are distributed by genre.</p>
+<pre class="r"><code>summary_ratings &lt;- movies %&gt;% #creating a table for summary of ratings 
+  group_by(genre) %&gt;% #groupping by genre 
+  summarize(average_ratings = mean(rating), median_ratings=median(rating),sd_ratings=StdDev(rating), min_ratings = min(rating), max_ratings=max(rating))%&gt;% # finding the mean, median, standard deviation, min and max of the data 
+  arrange(genre)
+summary_ratings</code></pre>
+<pre><code>## # A tibble: 17 × 6
+##    genre       average_ratings median_ratings sd_ratings[,1] min_ratings max_ratings
+##    &lt;chr&gt;                 &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Action                 6.23           6.3           1.03          2.1         9  
+##  2 Adventure              6.51           6.6           1.09          2.3         8.6
+##  3 Animation              6.65           6.9           0.968         4.5         8  
+##  4 Biography              7.11           7.2           0.760         4.5         8.9
+##  5 Comedy                 6.11           6.2           1.02          1.9         8.8
+##  6 Crime                  6.92           6.9           0.849         4.8         9.3
+##  7 Documentary            6.66           7.4           1.77          1.6         8.5
+##  8 Drama                  6.73           6.8           0.917         2.1         8.8
+##  9 Family                 6.5            5.9           1.22          5.7         7.9
+## 10 Fantasy                6.15           6.45          0.959         4.3         7.9
+## 11 Horror                 5.83           5.9           1.01          3.6         8.5
+## 12 Musical                6.75           6.75          0.636         6.3         7.2
+## 13 Mystery                6.86           6.9           0.882         4.6         8.5
+## 14 Romance                6.65           6.65          0.636         6.2         7.1
+## 15 Sci-Fi                 6.66           6.4           1.09          5           8.2
+## 16 Thriller               4.8            4.8          NA             4.8         4.8
+## 17 Western                5.7            5.7           2.26          4.1         7.3</code></pre>
+<pre class="r"><code>p &lt;- ggplot(movies, aes(x = rating )) + geom_density(color=&quot;darkblue&quot;, fill=&quot;lightblue&quot;) + 
+  labs(title = &quot;Density plot of movie ratings&quot; ) #plotting the density of movies data 
+# Add mean line
+p+ geom_vline(aes(xintercept=mean(rating)),
+            color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>There exists a positive relationship between the number of facebook likes and the gross revenue generated by the movie, as depicted by the trend line that summarizes the nature of the scatter plot. We have chosen gross revenue as the Y variable since we are predicting the impact of facebook likes on the revenue generated. Y variable - gross revenue is the dependent variable in this case which depends on the independent variable X - facebook likes.</p>
+<pre class="r"><code>ggplot(movies, aes(x = cast_facebook_likes , y = gross )) + #plotting the scatterplot of facebook likes and the gross revenue of the movie 
+  geom_point(alpha=0.3) + 
+  geom_smooth(method = &quot;lm&quot;) + #adding trendline 
+  scale_x_log10()+  #scalling the data 
+  scale_y_log10() +
+  theme_bw() + 
+  labs(title = &quot;Relationship between gross revenue and facebook likes&quot;, y=&quot;Gross revenue&quot;, x=&quot; Count of facebook likes&quot; ) + #adding titles and axes labels 
+  NULL</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/gross_on_fblikes-1.png" width="648" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Examining the relationship between <code>gross</code> and <code>budget</code>.</li>
+</ul>
+<p>The scatter plot and the trendline demonstrate that films with higher budget generally have higher revenue as there exists a positive relationship between these variables.</p>
+<pre class="r"><code>ggplot(movies, aes(y= gross , x = budget )) + #plotting the scatterplot of budget and the gross revenue of the movie 
+  geom_point(alpha=0.3) + 
+  geom_smooth(method = &quot;lm&quot;) + 
+  scale_x_log10()+ 
+  scale_y_log10() +
+  theme_bw() +
+  labs(title = &quot;Relationship between gross revenue and budget of films&quot;, y=&quot;Gross revenue&quot;, x=&quot;Budget&quot;) +
+  NULL</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/gross_on_budget-1.png" width="648" style="display: block; margin: auto;" /></p>
+<ul>
+<li>Examining the relationship between <code>gross</code> and <code>rating</code>.</li>
+</ul>
+<p>The faceted scatter plot depicts that the IMDB ratings are not a very good indicator of the gross revenue that the film will make, since the relationship between these variables is not consistent across genres. While for some genres there exists a positive relationship (drama, action, adventure, etc.) for a few other the relationship is negative (Documentary and Sci-Fi).</p>
+<pre class="r"><code>ggplot(movies, aes(y= gross , x = rating, colour = genre )) + #Facted plot of ratings and revenue
+  geom_point(alpha=0.3) + 
+  geom_smooth(method = &quot;lm&quot;) + 
+  scale_x_log10()+ 
+  scale_y_log10() +
+  theme_bw() +
+  labs(title = &quot;Relationship between gross revenue and rating of films, grouped by genre&quot; ) +
+  facet_wrap(~genre) + 
+  NULL</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/gross_on_rating-1.png" width="648" style="display: block; margin: auto;" /></p>
+</div>
+<div id="returns-of-financial-stocks" class="section level1">
+<h1>Returns of financial stocks</h1>
+<p>We will use the <code>tidyquant</code> package to download historical data of stock prices, calculate returns, and examine the distribution of returns.</p>
+<pre class="r"><code>nyse &lt;- read_csv(here::here(&quot;data&quot;,&quot;nyse.csv&quot;)) #load the dataset
+glimpse(nyse) #checking summary of data </code></pre>
+<pre><code>## Rows: 508
+## Columns: 6
+## $ symbol        &lt;chr&gt; &quot;MMM&quot;, &quot;ABB&quot;, &quot;ABT&quot;, &quot;ABBV&quot;, &quot;ACN&quot;, &quot;AAP&quot;, &quot;AFL&quot;, &quot;A&quot;, &quot;…
+## $ name          &lt;chr&gt; &quot;3M Company&quot;, &quot;ABB Ltd&quot;, &quot;Abbott Laboratories&quot;, &quot;AbbVie …
+## $ ipo_year      &lt;chr&gt; &quot;n/a&quot;, &quot;n/a&quot;, &quot;n/a&quot;, &quot;2012&quot;, &quot;2001&quot;, &quot;n/a&quot;, &quot;n/a&quot;, &quot;1999…
+## $ sector        &lt;chr&gt; &quot;Health Care&quot;, &quot;Consumer Durables&quot;, &quot;Health Care&quot;, &quot;Heal…
+## $ industry      &lt;chr&gt; &quot;Medical/Dental Instruments&quot;, &quot;Electrical Products&quot;, &quot;Ma…
+## $ summary_quote &lt;chr&gt; &quot;https://www.nasdaq.com/symbol/mmm&quot;, &quot;https://www.nasdaq…</code></pre>
+<pre class="r"><code>is.na(nyse) #checking for na values </code></pre>
+<pre><code>##        symbol  name ipo_year sector industry summary_quote
+##   [1,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [2,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [3,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [4,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [5,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [6,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [7,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [8,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##   [9,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [10,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [11,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [12,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [13,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [14,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [15,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [16,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [17,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [18,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [19,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [20,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [21,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [22,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [23,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [24,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [25,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [26,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [27,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [28,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [29,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [30,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [31,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [32,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [33,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [34,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [35,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [36,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [37,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [38,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [39,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [40,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [41,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [42,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [43,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [44,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [45,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [46,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [47,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [48,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [49,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [50,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [51,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [52,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [53,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [54,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [55,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [56,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [57,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [58,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [59,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [60,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [61,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [62,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [63,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [64,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [65,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [66,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [67,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [68,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [69,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [70,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [71,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [72,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [73,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [74,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [75,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [76,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [77,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [78,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [79,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [80,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [81,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [82,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [83,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [84,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [85,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [86,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [87,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [88,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [89,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [90,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [91,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [92,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [93,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [94,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [95,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [96,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [97,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [98,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+##  [99,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [100,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [101,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [102,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [103,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [104,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [105,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [106,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [107,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [108,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [109,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [110,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [111,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [112,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [113,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [114,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [115,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [116,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [117,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [118,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [119,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [120,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [121,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [122,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [123,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [124,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [125,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [126,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [127,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [128,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [129,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [130,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [131,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [132,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [133,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [134,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [135,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [136,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [137,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [138,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [139,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [140,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [141,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [142,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [143,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [144,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [145,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [146,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [147,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [148,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [149,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [150,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [151,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [152,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [153,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [154,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [155,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [156,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [157,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [158,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [159,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [160,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [161,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [162,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [163,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [164,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [165,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [166,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [167,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [168,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [169,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [170,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [171,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [172,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [173,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [174,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [175,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [176,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [177,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [178,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [179,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [180,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [181,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [182,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [183,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [184,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [185,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [186,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [187,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [188,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [189,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [190,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [191,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [192,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [193,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [194,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [195,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [196,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [197,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [198,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [199,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [200,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [201,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [202,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [203,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [204,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [205,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [206,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [207,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [208,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [209,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [210,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [211,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [212,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [213,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [214,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [215,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [216,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [217,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [218,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [219,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [220,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [221,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [222,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [223,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [224,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [225,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [226,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [227,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [228,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [229,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [230,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [231,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [232,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [233,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [234,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [235,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [236,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [237,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [238,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [239,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [240,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [241,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [242,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [243,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [244,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [245,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [246,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [247,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [248,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [249,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [250,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [251,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [252,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [253,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [254,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [255,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [256,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [257,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [258,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [259,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [260,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [261,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [262,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [263,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [264,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [265,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [266,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [267,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [268,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [269,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [270,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [271,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [272,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [273,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [274,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [275,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [276,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [277,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [278,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [279,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [280,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [281,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [282,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [283,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [284,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [285,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [286,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [287,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [288,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [289,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [290,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [291,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [292,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [293,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [294,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [295,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [296,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [297,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [298,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [299,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [300,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [301,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [302,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [303,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [304,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [305,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [306,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [307,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [308,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [309,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [310,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [311,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [312,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [313,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [314,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [315,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [316,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [317,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [318,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [319,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [320,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [321,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [322,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [323,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [324,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [325,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [326,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [327,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [328,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [329,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [330,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [331,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [332,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [333,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [334,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [335,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [336,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [337,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [338,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [339,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [340,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [341,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [342,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [343,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [344,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [345,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [346,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [347,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [348,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [349,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [350,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [351,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [352,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [353,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [354,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [355,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [356,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [357,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [358,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [359,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [360,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [361,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [362,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [363,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [364,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [365,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [366,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [367,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [368,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [369,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [370,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [371,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [372,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [373,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [374,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [375,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [376,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [377,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [378,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [379,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [380,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [381,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [382,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [383,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [384,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [385,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [386,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [387,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [388,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [389,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [390,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [391,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [392,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [393,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [394,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [395,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [396,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [397,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [398,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [399,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [400,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [401,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [402,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [403,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [404,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [405,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [406,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [407,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [408,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [409,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [410,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [411,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [412,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [413,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [414,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [415,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [416,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [417,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [418,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [419,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [420,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [421,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [422,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [423,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [424,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [425,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [426,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [427,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [428,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [429,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [430,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [431,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [432,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [433,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [434,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [435,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [436,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [437,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [438,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [439,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [440,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [441,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [442,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [443,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [444,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [445,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [446,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [447,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [448,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [449,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [450,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [451,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [452,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [453,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [454,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [455,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [456,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [457,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [458,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [459,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [460,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [461,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [462,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [463,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [464,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [465,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [466,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [467,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [468,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [469,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [470,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [471,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [472,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [473,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [474,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [475,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [476,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [477,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [478,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [479,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [480,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [481,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [482,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [483,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [484,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [485,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [486,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [487,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [488,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [489,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [490,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [491,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [492,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [493,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [494,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [495,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [496,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [497,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [498,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [499,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [500,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [501,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [502,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [503,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [504,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [505,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [506,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [507,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE
+## [508,]  FALSE FALSE    FALSE  FALSE    FALSE         FALSE</code></pre>
+<p>We create a table and a bar plot that shows the number of companies per sector, in descending order</p>
+<pre class="r"><code># YOUR CODE GOES HERE
+table1 &lt;- nyse %&gt;% #creating table variable 
+  count(sector) %&gt;% #counting companies by sector 
+  arrange(desc(n)) #arranging in descending order 
+table1</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    sector                    n
+##    &lt;chr&gt;                 &lt;int&gt;
+##  1 Finance                  97
+##  2 Consumer Services        79
+##  3 Public Utilities         60
+##  4 Capital Goods            45
+##  5 Health Care              45
+##  6 Energy                   42
+##  7 Technology               40
+##  8 Basic Industries         39
+##  9 Consumer Non-Durables    31
+## 10 Miscellaneous            12
+## 11 Transportation           10
+## 12 Consumer Durables         8</code></pre>
+<pre class="r"><code>ggplot(table1, aes(x= n , y = fct_reorder(sector, n), fill = sector)) + #generating plot 
+  geom_col(show.legend = FALSE) + 
+  labs(title = &quot;Number of companies per sector&quot; , y = &quot;sector&quot;, x = &quot;number of companies&quot;) +
+  NULL</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/companies_per_sector-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>djia_url &lt;- &quot;https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average&quot;
+
+
+#get tables that exist on URL
+tables &lt;- djia_url %&gt;% 
+  read_html() %&gt;% 
+  html_nodes(css=&quot;table&quot;)
+
+
+# parse HTML tables into a dataframe called djia. 
+# Use purr::map() to create a list of all tables in URL
+djia &lt;- map(tables, . %&gt;% 
+               html_table(fill=TRUE)%&gt;% 
+               clean_names())
+
+
+# constituents
+table1 &lt;- djia[[2]] %&gt;% # the second table on the page contains the ticker symbols
+  mutate(date_added = ymd(date_added),
+         
+         # if a stock is listed on NYSE, its symbol is, e.g., NYSE: MMM
+         # We will get prices from yahoo finance which requires just the ticker
+         
+         # if symbol contains &quot;NYSE*&quot;, the * being a wildcard
+         # then we jsut drop the first 6 characters in that string
+         ticker = ifelse(str_detect(symbol, &quot;NYSE*&quot;),
+                          str_sub(symbol,7,11),
+                          symbol)
+         )
+
+# we need a vector of strings with just the 30 tickers + SPY
+tickers &lt;- table1 %&gt;% 
+  select(ticker) %&gt;% 
+  pull() %&gt;% # pull() gets them as a sting of characters
+  c(&quot;SPY&quot;) # and lets us add SPY, the SP500 ETF</code></pre>
+<pre class="r"><code># Notice the cache=TRUE argument in the chunk options. Because getting data is time consuming, # cache=TRUE means that once it downloads data, the chunk will not run again next time you knit your Rmd
+
+myStocks &lt;- tickers %&gt;% 
+  tq_get(get  = &quot;stock.prices&quot;,
+         from = &quot;2000-01-01&quot;,
+         to   = Sys.Date()) %&gt;% # Sys.Date() returns today&#39;s price
+  group_by(symbol) 
+
+glimpse(myStocks) # examine the structure of the resulting data frame</code></pre>
+<pre><code>## Rows: 162,018
+## Columns: 8
+## Groups: symbol [31]
+## $ symbol   &lt;chr&gt; &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;, &quot;MMM&quot;…
+## $ date     &lt;date&gt; 2000-01-03, 2000-01-04, 2000-01-05, 2000-01-06, 2000-01-07, …
+## $ open     &lt;dbl&gt; 48.0, 46.4, 45.6, 47.2, 50.6, 50.2, 50.4, 51.0, 50.7, 50.4, 4…
+## $ high     &lt;dbl&gt; 48.2, 47.4, 48.1, 51.2, 51.9, 51.8, 51.2, 51.8, 50.9, 50.5, 4…
+## $ low      &lt;dbl&gt; 47.0, 45.3, 45.6, 47.2, 50.0, 50.0, 50.2, 50.4, 50.2, 49.5, 4…
+## $ close    &lt;dbl&gt; 47.2, 45.3, 46.6, 50.4, 51.4, 51.1, 50.2, 50.4, 50.4, 49.7, 4…
+## $ volume   &lt;dbl&gt; 2173400, 2713800, 3699400, 5975800, 4101200, 3863800, 2357600…
+## $ adjusted &lt;dbl&gt; 27.2, 26.1, 26.9, 29.0, 29.6, 29.4, 28.9, 29.0, 29.0, 28.6, 2…</code></pre>
+<p>Financial performance analysis depend on returns; If I buy a stock today for 100 and I sell it tomorrow for 101.75, my one-day return, assuming no transaction costs, is 1.75%. So given the adjusted closing prices, our first step is to calculate daily and monthly returns.</p>
+<p>Financial performance analysis depend on returns; If I buy a stock today for 100 and I sell it tomorrow for 101.75, my one-day return, assuming no transaction costs, is 1.75%. So given the adjusted closing prices, our first step is to calculate daily and monthly returns.</p>
+<pre class="r"><code>#calculate daily returns
+myStocks_returns_daily &lt;- myStocks %&gt;%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = &quot;daily&quot;, 
+               type       = &quot;log&quot;,
+               col_rename = &quot;daily_returns&quot;,
+               cols = c(nested.col))  
+
+#calculate monthly  returns
+myStocks_returns_monthly &lt;- myStocks %&gt;%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = &quot;monthly&quot;, 
+               type       = &quot;arithmetic&quot;,
+               col_rename = &quot;monthly_returns&quot;,
+               cols = c(nested.col)) 
+
+#calculate yearly returns
+myStocks_returns_annual &lt;- myStocks %&gt;%
+  group_by(symbol) %&gt;%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = &quot;yearly&quot;, 
+               type       = &quot;arithmetic&quot;,
+               col_rename = &quot;yearly_returns&quot;,
+               cols = c(nested.col))</code></pre>
+<p>We create a table where you summarise monthly returns for each of the stocks and <code>SPY</code>; min, max, median, mean, SD.</p>
+<pre class="r"><code># YOUR CODE GOES HERE
+summary_returns &lt;- myStocks_returns_monthly %&gt;% #Creating a new table for summarizing data 
+  group_by(symbol) %&gt;% #grouping data by stock based 
+  summarize(average_returns = mean(monthly_returns), median_returns=median(monthly_returns),sd_returns=StdDev(monthly_returns), min_returns = min(monthly_returns), max_returns=max(monthly_returns))%&gt;% 
+  arrange(desc(sd_returns)) #arranging the data in desceding order of standard deviation
+summary_returns</code></pre>
+<pre><code>## # A tibble: 31 × 6
+##    symbol average_returns median_returns sd_returns[,1] min_returns max_returns
+##    &lt;chr&gt;            &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+##  1 AAPL           0.0269          0.0352         0.115       -0.577       0.454
+##  2 CRM            0.0262          0.0205         0.110       -0.360       0.403
+##  3 DOW            0.0156          0.0325         0.109       -0.276       0.255
+##  4 CSCO           0.00606         0.0125         0.0962      -0.367       0.389
+##  5 INTC           0.00755         0.0127         0.0955      -0.445       0.338
+##  6 GS             0.0111          0.0163         0.0926      -0.275       0.312
+##  7 BA             0.0126          0.0165         0.0925      -0.458       0.459
+##  8 AXP            0.0101          0.0109         0.0921      -0.279       0.875
+##  9 CAT            0.0144          0.0141         0.0898      -0.353       0.350
+## 10 JPM            0.0110          0.0161         0.0868      -0.281       0.255
+## # … with 21 more rows</code></pre>
+<pre class="r"><code>summary_returns %&gt;% #filtering results for SPY 
+filter(symbol == &quot;SPY&quot;) </code></pre>
+<pre><code>## # A tibble: 1 × 6
+##   symbol average_returns median_returns sd_returns[,1] min_returns max_returns
+##   &lt;chr&gt;            &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1 SPY            0.00682         0.0120         0.0433      -0.165       0.127</code></pre>
+<p>We Plot a density plot, using <code>geom_density()</code>, for each of the stocks</p>
+<pre class="r"><code># YOUR CODE GOES HERE
+p2&lt;- ggplot(myStocks_returns_monthly, aes(x = monthly_returns )) +  #assigning new variable for the plot 
+  geom_density(color=&quot;darkblue&quot;, fill=&quot;lightblue&quot;) + 
+  facet_wrap(~symbol) + 
+  labs(title = &quot;Distribution of monthly returns, grouped by stocks&quot; , x = &quot;Monthly returns&quot;)
+# Add mean line
+p2 + geom_vline(aes(xintercept=mean(monthly_returns)),
+            color=&quot;blue&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/density_monthly_returns-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>The more the returns are spread out, the riskier is the stocks. This is confirmed by the information in the table: the riskiest is Apple (AAPL) and the least risky is Johnson &amp; Johnson (JNJ).</p>
+<p>Finally, make a plot that shows the expected monthly return (mean) of a stock on the Y axis and the risk (standard deviation) in the X-axis. Please use <code>ggrepel::geom_text_repel()</code> to label each stock</p>
+<pre class="r"><code># YOUR CODE GOES HERE
+ggplot(summary_returns, aes(x = sd_returns, y = average_returns, label = symbol)) + 
+  geom_point() +
+  geom_text_repel() + labs(title = &quot;Monthly returns to risk&quot;, y=&quot;expected monthly returns&quot;, x=&quot;standard deviation of return&quot;)+ #using geom_text_repel
+  NULL</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/risk_return_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>Higher standard deviation of return conveys the higher risk assumed for acheiving expected returns. The higher the risk assumed (higher standard deviation) the higher are the returns (higher expected monthly retuns).</p>
+</div>
+<div id="is-inflation-transitory" class="section level1">
+<h1>Is inflation transitory?</h1>
+<blockquote>
+<p>The surge in inflation seen across major economies is probably short lived because it’s confined to just a few sectors of the economy, according to the Bank for International Settlements.</p>
+</blockquote>
+<blockquote>
+<p>New research by the BIS’s Claudio Borio, Piti Disyatat, Egon Zakrajsek and Dora Xia adds to one of the hottest debates in economics – how long the current surge in consumer prices will last. Both Federal Reserve Chair Jerome Powell and his euro-area counterpart Christine Lagarde have said the pickup is probably transitory, despite a snarled global supply chain and a spike in energy prices.</p>
+</blockquote>
+<p><img src="/Users/philippinebonnaud/Desktop/LBS 2021-2022/final_website/images/cpi_10year.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cpi  &lt;-   tq_get(&quot;CPIAUCSL&quot;, get = &quot;economic.data&quot;,
+                       from = &quot;1980-01-01&quot;) %&gt;% 
+  rename(cpi = symbol,  # FRED data is given as &#39;symbol&#39; and &#39;price&#39;
+         rate = price) %&gt;% # we rename them to what they really are, e.g., cpi and rate
+  
+  # calculate yearly change in CPI by dividing current month by same month a year (or 12 months) earlier, minus 1
+  mutate(cpi_yoy_change = rate/lag(rate, 12) - 1)
+
+ten_year_monthly  &lt;-   tq_get(&quot;GS10&quot;, get = &quot;economic.data&quot;,
+                       from = &quot;1980-01-01&quot;) %&gt;% 
+  rename(ten_year = symbol,
+         yield = price) %&gt;% 
+  mutate(yield = yield / 100) # original data is not given as, e.g., 0.05, but rather 5, for five percent
+
+# we have the two dataframes-- we now need to join them, and we will use left_join()
+# base R has a function merge() that does the same, but it&#39;s slow, so please don&#39;t use it
+
+mydata &lt;- 
+  cpi %&gt;% 
+  left_join(ten_year_monthly, by=&quot;date&quot;) %&gt;% 
+  mutate(
+    year = year(date), # using lubridate::year() to generate a new column with just the year
+    month = month(date, label = TRUE),
+    decade=case_when(
+      year %in% 1980:1989 ~ &quot;1980s&quot;,
+      year %in% 1990:1999 ~ &quot;1990s&quot;,
+      year %in% 2000:2009 ~ &quot;2000s&quot;,
+      year %in% 2010:2019 ~ &quot;2010s&quot;,
+      TRUE ~ &quot;2020s&quot;
+      )
+  )</code></pre>
+<pre class="r"><code>glimpse(mydata)</code></pre>
+<pre><code>## Rows: 501
+## Columns: 9
+## $ cpi            &lt;chr&gt; &quot;CPIAUCSL&quot;, &quot;CPIAUCSL&quot;, &quot;CPIAUCSL&quot;, &quot;CPIAUCSL&quot;, &quot;CPIAUC…
+## $ date           &lt;date&gt; 1980-01-01, 1980-02-01, 1980-03-01, 1980-04-01, 1980-0…
+## $ rate           &lt;dbl&gt; 78.0, 79.0, 80.1, 80.9, 81.7, 82.5, 82.6, 83.2, 83.9, 8…
+## $ cpi_yoy_change &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0.1179,…
+## $ ten_year       &lt;chr&gt; &quot;GS10&quot;, &quot;GS10&quot;, &quot;GS10&quot;, &quot;GS10&quot;, &quot;GS10&quot;, &quot;GS10&quot;, &quot;GS10&quot;,…
+## $ yield          &lt;dbl&gt; 0.1080, 0.1241, 0.1275, 0.1147, 0.1018, 0.0978, 0.1025,…
+## $ year           &lt;dbl&gt; 1980, 1980, 1980, 1980, 1980, 1980, 1980, 1980, 1980, 1…
+## $ month          &lt;ord&gt; Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, …
+## $ decade         &lt;chr&gt; &quot;1980s&quot;, &quot;1980s&quot;, &quot;1980s&quot;, &quot;1980s&quot;, &quot;1980s&quot;, &quot;1980s&quot;, &quot;…</code></pre>
+<pre class="r"><code>ggplot(mydata, aes(y= yield, x = cpi_yoy_change, colour=decade, label = date)) +
+  geom_point() + 
+  geom_smooth(method = &quot;lm&quot;) + 
+  facet_grid(vars(rows = decade)) + 
+  labs(title = &quot;How are CPI and 10 year yield related&quot;, y = &quot;10-Year Treasury Constant Maturity Rate&quot;, x= &quot;CPI Yearly change&quot;)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/unnamed-chunk-8-1.png" width="1632" style="display: block; margin: auto;" /></p>
+</div>
+<div id="challenge-2-opinion-polls-for-the-2021-german-elections" class="section level1">
+<h1>Challenge 2: Opinion polls for the 2021 German elections</h1>
+<pre class="r"><code>url &lt;- &quot;https://en.wikipedia.org/wiki/Opinion_polling_for_the_2021_German_federal_election&quot;
+
+# similar graphs and analyses can be found at 
+# https://www.theguardian.com/world/2021/jun/21/german-election-poll-tracker-who-will-be-the-next-chancellor
+# https://www.economist.com/graphic-detail/who-will-succeed-angela-merkel
+
+
+# get tables that exist on wikipedia page 
+tables &lt;- url %&gt;% 
+  read_html() %&gt;% 
+  html_nodes(css=&quot;table&quot;)
+
+
+# parse HTML tables into a dataframe called polls 
+# Use purr::map() to create a list of all tables in URL
+polls &lt;- map(tables, . %&gt;% 
+             html_table(fill=TRUE)%&gt;% 
+             janitor::clean_names())
+
+
+# list of opinion polls
+german_election_polls &lt;- polls[[1]] %&gt;% # the first table on the page contains the list of all opinions polls
+  slice(2:(n()-1)) %&gt;%  # drop the first row, as it contains again the variable names and last row that contains 2017 results
+  mutate(
+         # polls are shown to run from-to, e.g. 9-13 Aug 2021. We keep the last date, 13 Aug here, as the poll date
+         # and we extract it by picking the last 11 characters from that field
+         end_date = str_sub(fieldwork_date, -11),
+         
+         # end_date is still a string, so we convert it into a date object using lubridate::dmy()
+         end_date = dmy(end_date),
+         
+         # we also get the month and week number from the date, if we want to do analysis by month- week, etc.
+         month = month(end_date),
+         week = isoweek(end_date)
+         )</code></pre>
+<pre class="r"><code>glimpse(german_election_polls) #summary of data </code></pre>
+<pre><code>## Rows: 250
+## Columns: 16
+## $ polling_firm   &lt;chr&gt; &quot;2021 federal election&quot;, &quot;Wahlkreisprognose&quot;, &quot;Ipsos&quot;, …
+## $ fieldwork_date &lt;chr&gt; &quot;26 Sep 2021&quot;, &quot;22–24 Sep 2021&quot;, &quot;22–23 Sep 2021&quot;, &quot;22–…
+## $ samplesize     &lt;chr&gt; &quot;–&quot;, &quot;1,400&quot;, &quot;2,000&quot;, &quot;1,273&quot;, &quot;2,002&quot;, &quot;1,554&quot;, &quot;10,0…
+## $ abs            &lt;chr&gt; &quot;23.4&quot;, &quot;–&quot;, &quot;–&quot;, &quot;–&quot;, &quot;26&quot;, &quot;–&quot;, &quot;–&quot;, &quot;–&quot;, &quot;–&quot;, &quot;–&quot;, &quot;…
+## $ union          &lt;dbl&gt; 24.1, 22.5, 22.0, 23.0, 22.0, 25.0, 23.0, 21.0, 21.5, 2…
+## $ spd            &lt;dbl&gt; 25.7, 25.5, 26.0, 25.0, 25.0, 26.0, 25.0, 25.0, 25.0, 2…
+## $ af_d           &lt;dbl&gt; 10.3, 11.0, 11.0, 10.0, 10.0, 10.0, 10.0, 12.0, 11.0, 1…
+## $ fdp            &lt;dbl&gt; 11.5, 12.0, 12.0, 11.0, 12.0, 10.5, 12.0, 11.0, 12.5, 1…
+## $ linke          &lt;dbl&gt; 4.9, 7.0, 7.0, 6.0, 6.0, 5.0, 6.0, 7.0, 6.5, 7.0, 6.5, …
+## $ grune          &lt;dbl&gt; 14.8, 14.0, 16.0, 16.5, 17.0, 16.0, 16.0, 14.0, 15.0, 1…
+## $ fw             &lt;chr&gt; &quot;2.5&quot;, &quot;–&quot;, &quot;–&quot;, &quot;3&quot;, &quot;3&quot;, &quot;–&quot;, &quot;–&quot;, &quot;2&quot;, &quot;–&quot;, &quot;–&quot;, &quot;–&quot;…
+## $ others         &lt;chr&gt; &quot;6.2&quot;, &quot;8&quot;, &quot;6&quot;, &quot;5.5&quot;, &quot;5&quot;, &quot;7.5&quot;, &quot;8&quot;, &quot;7&quot;, &quot;8.5&quot;, &quot;9…
+## $ lead           &lt;chr&gt; &quot;1.6&quot;, &quot;3&quot;, &quot;4&quot;, &quot;2&quot;, &quot;3&quot;, &quot;1&quot;, &quot;2&quot;, &quot;4&quot;, &quot;3.5&quot;, &quot;4&quot;, &quot;…
+## $ end_date       &lt;date&gt; 2021-09-26, 2021-09-24, 2021-09-23, 2021-09-23, 2021-0…
+## $ month          &lt;dbl&gt; 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9…
+## $ week           &lt;dbl&gt; 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 37, 37,…</code></pre>
+<pre class="r"><code>head(german_election_polls)</code></pre>
+<pre><code>## # A tibble: 6 × 16
+##   polling_firm     fieldwork_date samplesize abs   union   spd  af_d   fdp linke
+##   &lt;chr&gt;            &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2021 federal el… 26 Sep 2021    –          23.4   24.1  25.7  10.3  11.5   4.9
+## 2 Wahlkreisprogno… 22–24 Sep 2021 1,400      –      22.5  25.5  11    12     7  
+## 3 Ipsos            22–23 Sep 2021 2,000      –      22    26    11    12     7  
+## 4 Forschungsgrupp… 22–23 Sep 2021 1,273      –      23    25    10    11     6  
+## 5 Forsa            20–23 Sep 2021 2,002      26     22    25    10    12     6  
+## 6 Allensbach       16–23 Sep 2021 1,554      –      25    26    10    10.5   5  
+## # … with 7 more variables: grune &lt;dbl&gt;, fw &lt;chr&gt;, others &lt;chr&gt;, lead &lt;chr&gt;,
+## #   end_date &lt;date&gt;, month &lt;dbl&gt;, week &lt;dbl&gt;</code></pre>
+<pre class="r"><code>my_colour_palette = c(
+  &quot;#000000&quot;, #CDU
+  &quot;#E3000F&quot;, #SPD
+  &quot;#1AA037&quot;, #GRUNE
+  &quot;#FFEF00&quot;, #FDP
+  &quot;#0489DB&quot;, #AFD
+  &quot;#951d7a&quot;  #LINKE-- we need the pink hex code for Die Linke
+)
+
+data_polls &lt;- data.frame(x = german_election_polls$end_date, # Reshape data frame
+                       y = c(german_election_polls$union, german_election_polls$spd, german_election_polls$grune, german_election_polls$fdp, german_election_polls$af_d, german_election_polls$linke ),
+                       group = c(rep(&quot;CDU/CSU&quot;, nrow(german_election_polls)),
+                                 rep(&quot;SPD&quot;, nrow(german_election_polls)),
+                                 rep(&quot;GRUNE&quot;, nrow(german_election_polls)),
+                                 rep(&quot;FDP&quot;, nrow(german_election_polls)),
+                                 rep(&quot;AFD&quot;, nrow(german_election_polls)),
+                                 rep(&quot;LINKE&quot;, nrow(german_election_polls))))
+
+ggplot(data_polls, aes(x, y, col = group)) +  # Create ggplot2 plot
+  geom_point(alpha=0.3) + 
+  geom_smooth(se=FALSE) + 
+  theme_bw() + 
+  labs(title = &quot;German elections poll tracker&quot;, x = &quot;Date&quot;, y = &quot;%&quot;) + 
+  scale_colour_manual(values = my_colour_palette)</code></pre>
+<p><img src="/blogs2/blog1_files/figure-html/unnamed-chunk-10-1.png" width="648" style="display: block; margin: auto;" /></p>
+</div>
