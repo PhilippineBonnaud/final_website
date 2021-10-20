@@ -92,7 +92,7 @@ params:
       - image: dissertefull.jpg
         subtitle: Utilising cloud computing technology to improve the data interoperability of french healthcare participants
         title: Cloud computing and healthcare 
-        url: blogs/dissertefull
+        url: blogs/dissertefull.pdf
       - image: Doctolib.jpg
         subtitle: Strategic analysis of the development of Doctolib
         title: Strategic analysis of Doctolib
