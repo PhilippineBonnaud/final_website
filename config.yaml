@@ -104,7 +104,7 @@ params:
       - image: KNN.jpg
         subtitle: Building a KNN algorithm from scratch for asset management
         title: KNN algorithms and Finance
-        url: blogs/KNN.pdf
+        url: blogs/KNN .pdf
       - image: BS.jpg
         subtitle: Analysing the drivers of women's financial behaviours
         title: Behavioural Science
