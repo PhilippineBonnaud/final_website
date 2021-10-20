@@ -8,7 +8,7 @@ params:
   banner:
     buttonText: Have a look
     subtitle: |-
-     Welcome to my website
+     Welcome to my websitegit 
     title: Hi, my name is Philippine
   blog: {}
   contact:
@@ -61,10 +61,14 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: cvpic.jp
+      - image: cvpic.jpg
         subtitle: A little more about me
         title: About
         url: blogs/About
+      - image: cvdownload.jpg
+        subtitle: take a look at my CV
+        title: CV
+        url: blogs/cvdownload
       - image: LBSlogo.jpg
         subtitle: what I study now
         title: London Business school MFA
@@ -107,7 +111,7 @@ params:
         url: blogs/BS
         
   two:
-    buttonText: More projects in R
+    buttonText: See for yourself
     enable: yes
     subtitle: Here is a portfolio of some of my R projects in a dymanic setting
     title: Dynamic Coding projects in R 
