@@ -8,7 +8,7 @@ params:
   banner:
     buttonText: Have a look
     subtitle: |-
-     Welcome to my websitegit 
+     Welcome to my website 
     title: Hi, my name is Philippine
   blog: {}
   contact:

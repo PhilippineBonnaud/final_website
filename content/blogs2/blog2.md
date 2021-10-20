@@ -8,7 +8,7 @@ draft: false
 image: PricesMilan.jpg
 keywords: ""
 slug: Milan
-title: Predicting the price of a four day stay in Milan
+title: Predicting the price of a four-days stay in Milan
 ---
 ## Executive Summary
 
