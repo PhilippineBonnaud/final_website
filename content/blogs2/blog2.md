@@ -5,7 +5,7 @@ categories:
 date: "20/10/2021"
 description: ""
 draft: false
-image: movie.jpg
+image: PricesMilan.jpg
 keywords: ""
 slug: Milan
 title: Predicting the price of a four day stay in Milan
