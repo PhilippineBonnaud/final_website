@@ -1,14 +1,14 @@
 ---
-categories:
-- ""
-- ""
+title: "Predicting the price of a four-days stay in Milan"
 date: "20/10/2021"
-description: ""
-draft: false
+description: ''
+draft: no
 image: PricesMilan.jpg
-keywords: ""
+keywords: ''
 slug: Milan
-title: Predicting the price of a four-days stay in Milan
+categories:
+- ''
+- ''
 ---
 ## Executive Summary
 
@@ -49,8 +49,6 @@ library(tidytext)
 library(viridis)
 library(vroom)
 library(ggcorrplot)
-install.packages("car")
-library(car)
 
 ```
 
@@ -384,7 +382,6 @@ get_regression_summaries(model1)
 
 mosaic::msummary(model1)
 
-car::vif(model1)  
 
 
 ```
@@ -416,7 +413,6 @@ get_regression_summaries(model2)
 
 mosaic::msummary(model2)
 
-car::vif(model2)  
 ```
 
 **Comment:** After running model 2, we found out that all the room type (including hotel room, private room, shared room) are statistically significant (5% significance level) in explaining the movement in price,since their above t-stat all lies above 2. More specifically, the hotel room would lead to the increase in rental price, while private room and shared room would make an opposite effect, with the underlying reasons stated above in EDA.\
@@ -440,7 +436,7 @@ get_regression_summaries(model2.2)
 
 mosaic::msummary(model2.2)
 
-car::vif(model2.2)  
+ 
 ```
 
 **Comment:** After running model 2.2, we found out that the explanatory power of room_type is much stronger than that of prop_type_simplified, as the adjust R-square has increased by roughly 0.03. Therefore, we only keep room_type in the following analysis.
@@ -492,7 +488,7 @@ get_regression_summaries(model3)
 
 mosaic::msummary(model3)
 
-car::vif(model3)  
+  
 ```
 **Comments:** We did not identify any GVIF figure above 5 in the regression run. However, after running the correlation analysis above, we do observe the high correlations between the four variables, including “bedroom”, “bathrooms”, “bed”, and “accommodate”, which we consider intuitively reasonable. Therefore, to arrive at a regression model which is as powerful as possible, we decided to only keep one variable from the four to proceed. 
 
@@ -507,7 +503,7 @@ model3.2 <- lm(price_4_nights ~ #keep bathrooms
              data = log_listings_4_nights_2_people)
 
 mosaic::msummary(model3.2)
-car::vif(model3.2) 
+
 ```
 
 ```{r}
@@ -519,7 +515,7 @@ model3.3 <- lm(price_4_nights ~ #keep bedrooms
              data = log_listings_4_nights_2_people)
 
 mosaic::msummary(model3.3)
-car::vif(model3.3) 
+ 
 ```
 
 ```{r}
@@ -531,7 +527,7 @@ model3.4 <- lm(price_4_nights ~ #keep beds
              data = log_listings_4_nights_2_people)
 
 mosaic::msummary(model3.4)
-car::vif(model3.4)
+
 ```
 
 ```{r}
@@ -543,7 +539,7 @@ model3.5 <- lm(price_4_nights ~ #keep accomodates
              data = log_listings_4_nights_2_people)
 
 mosaic::msummary(model3.5)
-car::vif(model3.5)
+
 ```
 
 **Comments:** The Adjusted R-squared for model 3.2, 3.3, 3.4, 3.5 are 0.2033, 0.2208, 0.1576, 0.1952. Therefore, we keep bedrooms and exclude the rest of it.
@@ -564,7 +560,7 @@ get_regression_summaries(model4)
 
 mosaic::msummary(model4)
 
-car::vif(model4)  
+ 
 ```
 
 Q2. Do superhosts `(host_is_superhost`) command a pricing premium, after controlling for other variables?
@@ -585,7 +581,7 @@ get_regression_summaries(model5)
 
 mosaic::msummary(model5)
 
-car::vif(model5)  
+ 
 ```
 **Comments:** After running the model with the additional variable of "Host is superhost", we observed that the variable "host_is_super host" is  significant variable in determining the price (with the absolute value of t-stats greater than 2), but with a relatively lower negative correlation. It is reasonable that "host_is_super host" is based on the quality of service provided. Generally, the tourists will consider the "value for money" as a key factor for giving reviews to the service providers. So we think the "superhosts" might have relatively lower price for services of same level of quality.  It could be the reason why the two variables showing negative relation. \
 \
@@ -610,7 +606,7 @@ get_regression_summaries(model6)
 
 mosaic::msummary(model6)
 
-car::vif(model6)
+
 ```
 **Comments:** After adding the "instant_bookable" variable, we observed that the Adjusted R-Square has increased further from the previous 0.2219 to 0.2264. We have concluded that the new model explains more variation of the prices and makes the regression model even stronger. \
 \
@@ -639,7 +635,6 @@ get_regression_summaries(model7)
 
 mosaic::msummary(model7)
 
-car::vif(model7)
 ```
 **Comments:** After running model 7, we found out that neighbourhood also has the explanatory power in predicting the price at 5% signifiance level. More specifically, Airbnb located in Northwest, Southeast, and Southwest would tend to have a lower price than that in Northeast region. 
 
@@ -664,7 +659,7 @@ get_regression_summaries(model8)
 
 mosaic::msummary(model8)
 
-car::vif(model8)
+
 ```
 
 **Comments:**Following the addition of the variable 'availability_30' the r-squared value increased to 0.304 from 0.233. This is good increase and suggests that this model is a stronger indicator of the variation of prices - suggesting this is a stronger regression model. Additionally the t-statistic, at 31.95, is a very strong indication that this is a significant variable.
